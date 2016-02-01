@@ -6,4 +6,6 @@ class CoEngine
   class GAME_FULL < CoEngine::Error; end # attempting to add players to a full game
 
   class ActionCanNotBePerformed < CoEngine::Error; end # attempting to perform an action on a state that does not exist
+  class TileAlreadyAllocated < CoEngine::Error; end # attempting select a tile that has already been chosen
+  class TileAllocationLimitExceeded < CoEngine::Error; end # attempting to select more than allocated number of initial tiles
 end
