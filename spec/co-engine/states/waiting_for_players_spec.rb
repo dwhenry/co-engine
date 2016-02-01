@@ -7,7 +7,7 @@ RSpec.describe CoEngine::WaitingForPlayers do
     let(:player_2) { { id: 2345, name: 'fred' } }
     let(:player_3) { { id: 3456, name: 'bob' } }
 
-    let(:engine) { Struct.new(:players).new([nil, nil]) }
+    let(:engine) { Struct.new(:players, :state).new([nil, nil], described_class) }
     subject { described_class }
 
     it 'adds the player to the game' do
@@ -25,6 +25,12 @@ RSpec.describe CoEngine::WaitingForPlayers do
       subject.join(engine, player_1)
       subject.join(engine, player_2)
       expect { subject.join(engine, player_3) }.to raise_error(CoEngine::GAME_FULL)
+    end
+
+    it 'will move to the next state once required number of players have joined' do
+      subject.join(engine, player_1)
+      subject.join(engine, player_2)
+      expect(engine.state).not_to eq(described_class)
     end
   end
 end

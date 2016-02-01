@@ -9,6 +9,8 @@ class CoEngine
       new_player = CoEngine::Player.new(player)
       raise(CoEngine::PLAYER_ALREADY_IN_GAME) if game.players.detect { |p| new_player == p }
       game.players[game.players.index(nil)] = new_player
+
+      game.state = CoEngine::InitialTileSelection if game.players.all?
     end
   end
 end
