@@ -1,10 +1,10 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'co-engine/version'
+require 'co_engine/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "co-engine"
+  spec.name          = "co_engine"
   spec.version       = CoEngine::VERSION
   spec.authors       = ["David Henry"]
   spec.email         = ["dw_henry@yahoo.com.au"]
