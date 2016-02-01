@@ -1,12 +1,17 @@
 require "co_engine/version"
 require "co_engine/errors"
 
+require "co_engine/states/base_state"
+require "co_engine/states/waiting_for_players"
+require "co_engine/states/initial_tile_selection"
+require "co_engine/states/player_to_pick_tile"
+
 class CoEngine
 
   STATES = [
-    WaitingForPlayers = 'WaitingForPlayers',
-    InitialTileSelection = 'InitialTileSelection',
-    PlayerToPickTile = 'PlayerToPickTile',
+    WaitingForPlayers,
+    InitialTileSelection,
+    PlayerToPickTile,
   ]
 
   MIN_TILE_COUNT = {
