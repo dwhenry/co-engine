@@ -38,10 +38,4 @@ class CoEngine
     :current_player,
     :turns
 
-  def join(player)
-    raise(CoEngine::GAME_FULL) if self.players.all?
-    new_player = CoEngine::Player.new(player)
-    raise(CoEngine::PLAYER_ALREADY_IN_GAME) if self.players.detect { |p| new_player == p }
-    self.players[self.players.index(nil)] = new_player
-  end
 end
