@@ -8,15 +8,12 @@ class CoEngine
   ]
 
   class << self
+    def loader
+      CoEngine::Loaders::JsonLoader
+    end
+
     def load(data)
-      engine = self.new
-      if data[:players].all? == true
-        engine.state = CoEngine::PlayerToPickTile
-        engine.current_player = CoEngine::Player.new(data[:players].first)
-      else
-        engine.state = CoEngine::WaitingForPlayers
-      end
-      engine
+      loader.new(data).load
     end
   end
 
