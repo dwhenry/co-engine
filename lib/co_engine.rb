@@ -26,10 +26,7 @@ class CoEngine
   def join(player)
     raise(CoEngine::GAME_FULL) if self.players.all?
     new_player = CoEngine::Player.new(player)
-    raise(CoEngine::PLAYER_ALREADY_IN_GAME) if self.players.detect { |p| p == new_player }
-
-    player_count = self.players.count
-    self.players = self.players.compact + [new_player]
-    self.players[player_count-1] ||= nil # ensure list of nils
+    raise(CoEngine::PLAYER_ALREADY_IN_GAME) if self.players.detect { |p| new_player == p }
+    self.players[self.players.index(nil)] = new_player
   end
 end

@@ -10,5 +10,9 @@ RSpec.describe CoEngine::Player do
       expect(player_1).to eq(player_2)
       expect(player_1).not_to eq(player_3)
     end
+
+    it 'can handle nil case' do
+      expect(player_1 == nil).to be false
+    end
   end
 end
