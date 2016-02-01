@@ -4,7 +4,7 @@ RSpec.describe CoEngine::Loaders::JsonLoader do
   describe '#load' do
     subject { described_class.new(game_data) }
 
-    describe 'loading a game without players' do
+    context 'loading a game without players' do
       it 'when no player data it raises an error' do
         expect { described_class.new({}).load }.to raise_error(CoEngine::INVALID_PLAYER_DATA, 'must be passed an array of player details')
       end
@@ -14,7 +14,7 @@ RSpec.describe CoEngine::Loaders::JsonLoader do
       end
     end
 
-    describe 'newly created game' do
+    context 'newly created game' do
       let(:game_data) { { players: [nil, nil] } }
 
       it 'does not raise any errors' do
@@ -30,11 +30,19 @@ RSpec.describe CoEngine::Loaders::JsonLoader do
       end
     end
 
-    describe 'game with players' do
+    context 'game with players' do
       let(:game_data) { { players: [{id: 345}, {id: 567}] } }
 
-      it 'has a state of "player to pick tile"' do
-        expect(subject.state).to eq(CoEngine::PlayerToPickTile)
+      it 'has a state of "initial tile selection"' do
+        expect(subject.state).to eq(CoEngine::InitialTileSelection)
+      end
+
+      context 'and all players have tiles' do
+        let(:game_data) { { players: [{id: 345, tiles: [1,2,3,4,5,6]}, {id: 567, tiles: [7,8,9,10,11,12]}] } }
+
+        it 'has a state of "player to pick tile"' do
+          expect(subject.state).to eq(CoEngine::PlayerToPickTile)
+        end
       end
 
       it 'has a current player set to the first player' do
@@ -43,7 +51,7 @@ RSpec.describe CoEngine::Loaders::JsonLoader do
       end
     end
 
-    describe 'game with two players' do
+    context 'game with two players' do
       let(:game_data) { { players: [{id: 345}, {id: 567}], turns: [{state: 'complete'}] } }
       let(:player_1) { CoEngine::Player.new(id: 345) }
       let(:player_2) { CoEngine::Player.new(id: 567) }

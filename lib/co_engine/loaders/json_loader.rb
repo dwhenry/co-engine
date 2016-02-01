@@ -26,10 +26,12 @@ class CoEngine
       #--------
 
       def state
-        if players.all? == true
-          CoEngine::PlayerToPickTile
-        else
+        if !players.all? == true
           CoEngine::WaitingForPlayers
+        elsif players.any? { |p| p.tiles.count < CoEngine::MIN_TILE_COUNT[players.count] }
+          CoEngine::InitialTileSelection
+        else
+          CoEngine::PlayerToPickTile
         end
       end
 

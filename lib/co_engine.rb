@@ -5,8 +5,18 @@ class CoEngine
 
   STATES = [
     WaitingForPlayers = 'WaitingForPlayers',
+    InitialTileSelection = 'InitialTileSelection',
     PlayerToPickTile = 'PlayerToPickTile',
   ]
+
+  MIN_TILE_COUNT = {
+    2 => 6,
+    3 => 4,
+    4 => 3,
+    5 => 2,
+    6 => 2,
+  }
+
 
   class << self
     def loader
