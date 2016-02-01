@@ -38,4 +38,7 @@ class CoEngine
     :current_player,
     :turns
 
+  def perform(action, *attr)
+    state.perform(action, self, *attr)
+  end
 end
