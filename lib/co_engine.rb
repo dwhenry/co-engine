@@ -41,4 +41,8 @@ class CoEngine
   def perform(action, *attr)
     state.perform(action, self, *attr)
   end
+
+  def actions
+    state.actions
+  end
 end

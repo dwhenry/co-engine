@@ -11,5 +11,9 @@ class CoEngine
         raise(CoEngine::ActionCanNotBePerformed, action)
       end
     end
+
+    def self.actions
+      self.methods - CoEngine::BaseState.methods
+    end
   end
 end
