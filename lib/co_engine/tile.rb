@@ -17,9 +17,13 @@ class CoEngine
     end
 
     def <(other)
-      !!(value && other.value &&
-      # nil or star is treated as the larges number
-      (value < other.value))
+      # if either is blank -> always smaller - allows it to be moved to any position
+      !!value && !!other.value && (value < other.value)
+    end
+
+    def ==(other)
+      color == other.color &&
+        value == other.value
     end
   end
 end

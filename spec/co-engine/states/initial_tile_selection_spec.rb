@@ -71,7 +71,6 @@ RSpec.describe CoEngine::InitialTileSelection do
       subject.move_tile(engine, player_1.id, 1)
       subject.move_tile(engine, player_1.id, 2)
       expect(player_1.tiles).to eq([tile_2, tile_1, tile_3, tile_4])
-
     end
   end
 end

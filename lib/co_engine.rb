@@ -36,7 +36,8 @@ class CoEngine
   attr_accessor :state,
     :players,
     :current_player,
-    :turns
+    :turns,
+    :tiles
 
   def perform(action, *attr)
     state.perform(action, self, *attr)
@@ -45,4 +46,5 @@ class CoEngine
   def actions
     state.actions
   end
+
 end

@@ -75,5 +75,16 @@ RSpec.describe CoEngine::Loaders::JsonLoader do
         expect(game.current_player).to eq(player_2)
       end
     end
+
+    context 'game with tiles' do
+      let(:game_data) { { players: [{id: 345}, {id: 567}], tiles: [{color: 'black', value: 1}, {color: 'black', value: 5}] } }
+
+      it 'reads the tile data from the array' do
+        expect(subject.tiles).to eq([
+          CoEngine::Tile.new(color: 'black', value: 1),
+          CoEngine::Tile.new(color: 'black', value: 5),
+        ])
+      end
+    end
   end
 end

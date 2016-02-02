@@ -14,6 +14,7 @@ class CoEngine
         engine.players = players
         engine.current_player = current_player
         engine.turns = turns
+        engine.tiles = tiles
         engine
       end
 
@@ -49,6 +50,20 @@ class CoEngine
 
       def players
         @players ||= (data[:players] || []).map { |player| player && CoEngine::Player.new(player) }
+      end
+
+      def tiles
+        if data[:tiles]
+          data[:tiles].map do |tile|
+            CoEngine::Tile.new(tile)
+          end
+        else
+          %w{black white}.flat_map do |color|
+            (0..9).map do |value|
+              CoEngine::Tile.new(color: color, value: value)
+            end
+          end.shuffle
+        end
       end
     end
   end

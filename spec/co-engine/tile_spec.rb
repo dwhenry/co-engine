@@ -35,4 +35,11 @@ RSpec.describe CoEngine::Tile do
       expect(player.tiles).to eq([black_blank, white_1, black_1, black_2])
     end
   end
+
+  describe '#new' do
+    it 'can be built from an option hash' do
+      options = { color: 'black', value: 12 }
+      expect { CoEngine::Tile.new(options) }.not_to raise_error
+    end
+  end
 end
