@@ -13,18 +13,21 @@ require "co_engine/tile"
 require "co_engine/states/base_state"
 require "co_engine/states/waiting_for_players"
 require "co_engine/states/initial_tile_selection"
-require "co_engine/states/players_turn"
+require "co_engine/states/tile_selection"
+require "co_engine/states/guess_tile"
 
 class CoEngine
 
-  STATES = [
+  GAME_STATES = [
     WaitingForPlayers,
     InitialTileSelection,
-    PlayersTurn,
+    TileSelection,
+    GuessTile,
   ]
 
   TURN_TYPES = [
     HAND_FINALIZED = 'HAND_FINALIZED',
+    GAME_TURN = 'GAME_TURN',
   ]
 
   MIN_TILE_COUNT = {

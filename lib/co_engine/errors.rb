@@ -16,4 +16,8 @@ class CoEngine
   class TilesOutOfOrder < CoEngine::Error; end # error swapping two tiles, tiles are not correctly ordered
   class UnableToFinalizeHand < CoEngine::Error; end # too few tiles selected
   class HandAlreadyFinalized < CoEngine::Error; end
+
+  # Other
+  class CorruptGame < CoEngine::Error; end # occurs if the game is determine to be in an invalid state and require manual fix
+
 end

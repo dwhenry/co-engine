@@ -2,14 +2,15 @@ class CoEngine
   class Tile
     LARGEST_NUMBER = 100
 
-    attr_reader :color, :value, :owner_id
-    attr_accessor :visible
+    attr_reader :color, :value
+    attr_accessor :owner_id, :visible, :pending
 
-    def initialize(color:, value:, owner_id: nil, visible: false)
+    def initialize(color:, value:, owner_id: nil, visible: false, pending: false)
       @color = color
       @value = value
       @owner_id = owner_id
       self.visible = visible
+      self.pending = pending
     end
 
     def <(other)

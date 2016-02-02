@@ -1,4 +1,4 @@
-require 'co_engine/loaders/json_exporter'
+require 'co_engine'
 
 RSpec.describe CoEngine::Loaders::JsonExporter do
   subject { described_class.new(engine) }
@@ -14,10 +14,10 @@ RSpec.describe CoEngine::Loaders::JsonExporter do
 
     it 'generates the appropriate json' do
       expect(subject.tiles(object)).to eq([
-        { color: "black", value: 3, owner_id: 234, visible: false },
-        { color: "black", value: 4, owner_id: nil, visible: true },
-        { color: "white", value: 5, owner_id: nil, visible: false },
-        { color: "white", value: nil, owner_id: nil, visible: false }
+        { color: "black", value: 3, owner_id: 234, visible: false, pending: false },
+        { color: "black", value: 4, owner_id: nil, visible: true, pending: false },
+        { color: "white", value: 5, owner_id: nil, visible: false, pending: false },
+        { color: "white", value: nil, owner_id: nil, visible: false, pending: false }
       ])
     end
   end
@@ -33,7 +33,7 @@ RSpec.describe CoEngine::Loaders::JsonExporter do
       expect(subject.players).to eq([
         { id: 234,
           name: "john",
-          tiles: [{ color: "black", value: 3, owner_id: 234, visible: false }] },
+          tiles: [{ color: "black", value: 3, owner_id: 234, visible: false, pending: false }] },
         nil,
         nil
       ])

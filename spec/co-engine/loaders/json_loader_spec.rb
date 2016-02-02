@@ -1,4 +1,4 @@
-require 'co_engine/loaders/json_loader'
+require 'co_engine'
 
 RSpec.describe CoEngine::Loaders::JsonLoader do
   describe '#load' do
@@ -37,16 +37,41 @@ RSpec.describe CoEngine::Loaders::JsonLoader do
         expect(subject.state).to eq(CoEngine::InitialTileSelection)
       end
 
-      context 'and all players have finalized the initial selection' do
-        let(:game_data) { { players: [{id: 345}, {id: 567}], turns: [{type: CoEngine::HAND_FINALIZED}, {type: CoEngine::HAND_FINALIZED}] } }
+      context ', all finalized initial selection' do
+        let(:game_data) { { players: [{id: 345}, {id: 567}], turns: turns } }
 
-        it 'has a state of "player to pick tile"' do
-          expect(subject.state).to eq(CoEngine::PlayersTurn)
+        context ', last turn has a state of CoEngine::TileSelection' do
+          let(:turns) { [{type: CoEngine::HAND_FINALIZED}, {type: CoEngine::HAND_FINALIZED}, {state: CoEngine::TileSelection.to_s}] }
+
+          it 'has a state of "tile selection"' do
+            expect(subject.state).to eq(CoEngine::TileSelection)
+          end
+
+          it 'has a current player set to the first player' do
+            player = CoEngine::Player.new(id: 345)
+            expect(subject.current_player).to eq(player)
+          end
         end
 
-        it 'has a current player set to the first player' do
-          player = CoEngine::Player.new(id: 345)
-          expect(subject.current_player).to eq(player)
+        context ', last turn has a state of CoEngine::GuessTile' do
+          let(:turns) { [{type: CoEngine::HAND_FINALIZED}, {type: CoEngine::HAND_FINALIZED}, {state: CoEngine::GuessTile.to_s}] }
+
+          it 'has a state of "tile selection"' do
+            expect(subject.state).to eq(CoEngine::GuessTile)
+          end
+
+          it 'has a current player set to the first player' do
+            player = CoEngine::Player.new(id: 345)
+            expect(subject.current_player).to eq(player)
+          end
+        end
+
+        context ', last turn has an invalid state' do
+          let(:turns) { [{type: CoEngine::HAND_FINALIZED}, {type: CoEngine::HAND_FINALIZED}, {state: 'OtherState'}] }
+
+          it 'has a state of "tile selection"' do
+            expect { subject.state }.to raise_error(CoEngine::CorruptGame, "invalid game state detected: 'OtherState'")
+          end
         end
       end
 
@@ -61,21 +86,15 @@ RSpec.describe CoEngine::Loaders::JsonLoader do
       let(:player_2) { CoEngine::Player.new(id: 567) }
 
       it 'when one turn as been completed' do
-        game_data[:turns] << {state: 'complete'}
+        game_data[:turns] << {state: 'complete'} << {state: CoEngine::TileSelection.to_s}
         game = described_class.new(game_data)
         expect(game.current_player).to eq(player_2)
       end
 
       it 'when two turn as been completed' do
-        game_data[:turns] << {state: 'complete'} << {state: 'complete'}
+        game_data[:turns] << {state: 'complete'} << {state: 'complete'} << {state: CoEngine::TileSelection.to_s}
         game = described_class.new(game_data)
         expect(game.current_player).to eq(player_1)
-      end
-
-      it 'when one turn has been completed and another is pending' do
-        game_data[:turns] << {state: 'complete'} << {state: 'guess tile'}
-        game = described_class.new(game_data)
-        expect(game.current_player).to eq(player_2)
       end
     end
 

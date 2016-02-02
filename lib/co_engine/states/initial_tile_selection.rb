@@ -35,7 +35,14 @@ class CoEngine
           type: CoEngine::HAND_FINALIZED,
           state: 'completed',
         }
-        engine.state = CoEngine::PlayersTurn if engine.turns.count { |t| t[:type] == CoEngine::HAND_FINALIZED } == engine.players.count
+        if engine.turns.count { |t| t[:type] == CoEngine::HAND_FINALIZED } == engine.players.count
+          engine.state = CoEngine::TileSelection
+          engine.turns << {
+            player_id: engine.players[0],
+            type: CoEngine::GAME_TURN,
+            state: CoEngine::TileSelection.to_s,
+          }
+        end
       end
 
       def view(engine, player_id)

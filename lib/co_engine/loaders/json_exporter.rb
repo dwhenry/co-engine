@@ -36,6 +36,7 @@ class CoEngine
             value: tile.value,
             owner_id: tile.owner_id,
             visible: tile.visible,
+            pending: tile.pending,
           }
         end
       end
