@@ -18,8 +18,6 @@ game.perform(:join, id: 234, name: 'bob')
 game.perform(:join, id: 456, name: 'jones')
 
 File.open("#{path}/three-of-three-players.json", 'w') { |f| f.puts game.export }
-require 'pry'
-binding.pry
 
 game.perform(:pick_tile, 123, 4)
 game.perform(:pick_tile, 123, 5)
@@ -38,8 +36,8 @@ game.perform(:pick_tile, 456, 3)
 
 File.open("#{path}/all-selected-tiles-without-finalizing.json", 'w') { |f| f.puts game.export }
 
-# game.perform(:finalize_hand, 123)
-# game.perform(:finalize_hand, 234)
-# game.perform(:finalize_hand, 456)
-#
-# File.open("#{path}/finalized-starting-tiles.json", 'w') { |f| f.puts game.export }
+game.perform(:finalize_hand, 123)
+game.perform(:finalize_hand, 234)
+game.perform(:finalize_hand, 456)
+
+File.open("#{path}/finalized-starting-tiles.json", 'w') { |f| f.puts game.export }

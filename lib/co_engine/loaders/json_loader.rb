@@ -29,7 +29,7 @@ class CoEngine
       def state
         if !players.all? == true
           CoEngine::WaitingForPlayers
-        elsif players.any? { |p| p.tiles.count < CoEngine::MIN_TILE_COUNT[players.count] }
+        elsif turns.count { |t| t[:type] == CoEngine::HAND_FINALIZED } < engine.players.count
           CoEngine::InitialTileSelection
         else
           CoEngine::PlayerToPickTile
