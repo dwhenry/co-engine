@@ -11,5 +11,13 @@ class CoEngine
       raise CoEngine::TileAlreadyAllocated if tile.owner_id
       tile.assign(player)
     end
+
+    def move_tile(engine, player_id, tile_position)
+      player = engine.players.detect { |p| p.id == player_id }
+      raise CoEngine::SwapPositionOutOfBounds if tile_position < 0 || tile_position >= (player.tiles.compact.count - 1)
+      raise CoEngine::TilesOutOfOrder if player.tiles[tile_position] < player.tiles[tile_position + 1]
+      tile = player.tiles.delete_at(tile_position)
+      player.tiles.insert(tile_position + 1, tile)
+    end
   end
 end

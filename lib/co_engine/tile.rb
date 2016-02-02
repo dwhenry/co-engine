@@ -12,13 +12,14 @@ class CoEngine
 
     def assign(player)
       index = player.tiles.find_index { |t| self < t } || 0
-      player.tiles.insert(index, self)
+      player.tiles.insert(index, self) # should this code really be here??
       @owner_id = player.id
     end
 
     def <(other)
+      !!(value && other.value &&
       # nil or star is treated as the larges number
-      (value || LARGEST_NUMBER) < (other.value || LARGEST_NUMBER)
+      (value < other.value))
     end
   end
 end

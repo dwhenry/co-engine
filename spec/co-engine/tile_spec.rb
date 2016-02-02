@@ -1,12 +1,12 @@
 require 'co_engine/tile'
 
 RSpec.describe CoEngine::Tile do
-  describe '#<' do
-    let(:black_1) { described_class.new(color: 'black', value: 1) }
-    let(:black_2) { described_class.new(color: 'black', value: 2) }
-    let(:black_star) { described_class.new(color: 'black', value: nil) }
-    let(:white_1) { described_class.new(color: 'white', value: 1) }
+  let(:black_1) { described_class.new(color: 'black', value: 1) }
+  let(:black_2) { described_class.new(color: 'black', value: 2) }
+  let(:black_blank) { described_class.new(color: 'black', value: nil) }
+  let(:white_1) { described_class.new(color: 'white', value: 1) }
 
+  describe '#<' do
     it 'is based on the value of the tile' do
       expect(black_1).to be < black_2
     end
@@ -16,8 +16,23 @@ RSpec.describe CoEngine::Tile do
       expect(white_1).not_to be < black_1
     end
 
-    it 'stars are placed at the end by default' do
-      expect(black_1).to be < black_star
+    it 'blank tiles are small than nothing - results in them being placed at start of tiles' do
+      expect(black_blank).not_to be < black_1
+      expect(black_1).not_to be < black_blank
+      expect(black_blank).not_to be < black_blank
+    end
+  end
+
+  describe '#assign' do
+    let(:player) { Struct.new(:id, :tiles).new(123, []) }
+
+    it 'inserts and orders tiles' do
+      black_2.assign(player)
+      white_1.assign(player)
+      black_blank.assign(player)
+      black_1.assign(player)
+
+      expect(player.tiles).to eq([black_blank, white_1, black_1, black_2])
     end
   end
 end
