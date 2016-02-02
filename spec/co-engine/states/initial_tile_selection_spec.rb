@@ -8,7 +8,7 @@ RSpec.describe CoEngine::InitialTileSelection do
   let(:player_2) { CoEngine::Player.new(id: 456) }
   let(:tile_1) { CoEngine::Tile.new(color: 'black', value: 8) }
   let(:tile_2) { CoEngine::Tile.new(color: 'white', value: 3) }
-  let(:engine) { Struct.new(:players, :tiles).new([player_1, player_2], [tile_1, tile_2]) }
+  let(:engine) { Struct.new(:players, :tiles, :turns, :state).new([player_1, player_2], [tile_1, tile_2], [], described_class) }
 
   subject { described_class }
 
@@ -73,6 +73,38 @@ RSpec.describe CoEngine::InitialTileSelection do
       subject.move_tile(engine, player_1.id, 1)
       subject.move_tile(engine, player_1.id, 2)
       expect(player_1.tiles).to eq([tile_2, tile_1, tile_3, tile_4])
+    end
+  end
+
+  describe '#finalize_hand' do
+    it 'raises an error if player has not picked enough tiles' do
+      expect { subject.finalize_hand(engine, player_1.id) }.to raise_error(CoEngine::UnableToFinalizeHand, 'too few tiles selected')
+    end
+
+    it 'add a "Hand Finalized" turn entry for the player' do
+      player_1.tiles << 1 << 2 << 3 << 4 << 5 << 6
+      subject.finalize_hand(engine, player_1.id)
+      expect(engine.turns[0]).to eq(
+        player_id: player_1.id,
+        type: CoEngine::HAND_FINALIZED,
+        state: 'completed',
+      )
+    end
+
+    it 'raises an error if player has already finalized' do
+      player_1.tiles << 1 << 2 << 3 << 4 << 5 << 6
+      subject.finalize_hand(engine, player_1.id)
+      expect { subject.finalize_hand(engine, player_1.id) }.to raise_error(CoEngine::HandAlreadyFinalized)
+    end
+
+    it 'advances the game state once all players are finalized' do
+      player_1.tiles << 1 << 2 << 3 << 4 << 5 << 6
+      subject.finalize_hand(engine, player_1.id)
+
+      player_2.tiles << 1 << 2 << 3 << 4 << 5 << 6
+      subject.finalize_hand(engine, player_2.id)
+
+      expect(engine.state).not_to eq(described_class)
     end
   end
 end

@@ -23,6 +23,10 @@ class CoEngine
     PlayerToPickTile,
   ]
 
+  TURN_TYPES = [
+    HAND_FINALIZED = 'HAND_FINALIZED',
+  ]
+
   MIN_TILE_COUNT = {
     2 => 6,
     3 => 4,

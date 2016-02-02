@@ -14,4 +14,6 @@ class CoEngine
   # Tile movement and finalization
   class SwapPositionOutOfBounds < CoEngine::Error; end # error swapping two tiles, position out of range
   class TilesOutOfOrder < CoEngine::Error; end # error swapping two tiles, tiles are not correctly ordered
+  class UnableToFinalizeHand < CoEngine::Error; end # too few tiles selected
+  class HandAlreadyFinalized < CoEngine::Error; end
 end
