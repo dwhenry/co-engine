@@ -6,11 +6,11 @@ RSpec.describe CoEngine::Loaders::JsonLoader do
 
     context 'loading a game without players' do
       it 'when no player data it raises an error' do
-        expect { described_class.new({}).load }.to raise_error(CoEngine::INVALID_PLAYER_DATA, 'must be passed an array of player details')
+        expect { described_class.new({}).load }.to raise_error(CoEngine::InvalidPlayerData, 'must be passed an array of player details')
       end
 
       it 'when empty player data it raises an error' do
-        expect { described_class.new({player: []}).load }.to raise_error(CoEngine::INVALID_PLAYER_DATA, 'must be passed an array of player details')
+        expect { described_class.new({player: []}).load }.to raise_error(CoEngine::InvalidPlayerData, 'must be passed an array of player details')
       end
     end
 

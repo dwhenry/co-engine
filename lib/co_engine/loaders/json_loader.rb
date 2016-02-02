@@ -20,7 +20,7 @@ class CoEngine
 
       def validate!
         if data[:players].nil? || data[:players].empty?
-          raise CoEngine::INVALID_PLAYER_DATA, 'must be passed an array of player details'
+          raise CoEngine::InvalidPlayerData, 'must be passed an array of player details'
         end
       end
 

@@ -18,13 +18,13 @@ RSpec.describe CoEngine::WaitingForPlayers do
 
     it 'will raise an error is attempting to add an existing player to a game' do
       subject.join(engine, player_1)
-      expect { subject.join(engine, player_1) }.to raise_error(CoEngine::PLAYER_ALREADY_IN_GAME)
+      expect { subject.join(engine, player_1) }.to raise_error(CoEngine::PlayerAlreadyInGame)
     end
 
     it 'will raise an error if game is already full' do
       subject.join(engine, player_1)
       subject.join(engine, player_2)
-      expect { subject.join(engine, player_3) }.to raise_error(CoEngine::GAME_FULL)
+      expect { subject.join(engine, player_3) }.to raise_error(CoEngine::GameFull)
     end
 
     it 'will move to the next state once required number of players have joined' do
