@@ -41,7 +41,7 @@ RSpec.describe CoEngine::Loaders::JsonLoader do
         let(:game_data) { { players: [{id: 345}, {id: 567}], turns: [{type: CoEngine::HAND_FINALIZED}, {type: CoEngine::HAND_FINALIZED}] } }
 
         it 'has a state of "player to pick tile"' do
-          expect(subject.state).to eq(CoEngine::PlayerToPickTile)
+          expect(subject.state).to eq(CoEngine::PlayersTurn)
         end
 
         it 'has a current player set to the first player' do

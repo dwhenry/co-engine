@@ -32,7 +32,7 @@ class CoEngine
         elsif turns.count { |t| t[:type] == CoEngine::HAND_FINALIZED } < players.count
           CoEngine::InitialTileSelection
         else
-          CoEngine::PlayerToPickTile
+          CoEngine::PlayersTurn
         end
       end
 

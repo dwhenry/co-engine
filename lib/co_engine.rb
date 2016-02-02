@@ -13,14 +13,14 @@ require "co_engine/tile"
 require "co_engine/states/base_state"
 require "co_engine/states/waiting_for_players"
 require "co_engine/states/initial_tile_selection"
-require "co_engine/states/player_to_pick_tile"
+require "co_engine/states/players_turn"
 
 class CoEngine
 
   STATES = [
     WaitingForPlayers,
     InitialTileSelection,
-    PlayerToPickTile,
+    PlayersTurn,
   ]
 
   TURN_TYPES = [

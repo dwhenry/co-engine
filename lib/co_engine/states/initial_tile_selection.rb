@@ -30,7 +30,7 @@ class CoEngine
           type: CoEngine::HAND_FINALIZED,
           state: 'completed',
         }
-        engine.state = CoEngine::PlayerToPickTile if engine.turns.count { |t| t[:type] == CoEngine::HAND_FINALIZED } == engine.players.count
+        engine.state = CoEngine::PlayersTurn if engine.turns.count { |t| t[:type] == CoEngine::HAND_FINALIZED } == engine.players.count
       end
 
       def view(engine, player_id)
