@@ -1,5 +1,7 @@
 class CoEngine
   class InitialTileSelection < BaseState
+    END_POSITION = -1
+
     class << self
       def started?
         false
@@ -10,7 +12,10 @@ class CoEngine
         raise CoEngine::TileAllocationLimitExceeded if player.tiles.count >= CoEngine::MIN_TILE_COUNT[engine.players.count]
         tile = engine.tiles[tile_index]
         raise CoEngine::TileAlreadyAllocated if tile.owner_id
-        tile.assign(player)
+
+        index = player.tiles.find_index { |t| tile < t } || END_POSITION
+        player.tiles.insert(index, tile)
+        tile.owner_id = player.id
       end
 
       def move_tile(engine, player_id, tile_position)

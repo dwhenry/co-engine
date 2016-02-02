@@ -23,19 +23,6 @@ RSpec.describe CoEngine::Tile do
     end
   end
 
-  describe '#assign' do
-    let(:player) { Struct.new(:id, :tiles).new(123, []) }
-
-    it 'inserts and orders tiles' do
-      black_2.assign(player)
-      white_1.assign(player)
-      black_blank.assign(player)
-      black_1.assign(player)
-
-      expect(player.tiles).to eq([black_blank, white_1, black_1, black_2])
-    end
-  end
-
   describe '#new' do
     it 'can be built from an option hash' do
       options = { color: 'black', value: 12 }

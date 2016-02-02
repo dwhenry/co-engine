@@ -35,9 +35,20 @@ RSpec.describe CoEngine::InitialTileSelection do
     end
 
     it 'arranges tiles in value order regardless of selection order' do
-      subject.pick_tile(engine, player_1.id, 0)
-      subject.pick_tile(engine, player_1.id, 1)
-      expect(engine.players.first.tiles).to eq([tile_2, tile_1])
+    end
+
+    context 'correctly orders tiles' do
+      it 'when inserted small to large' do
+        subject.pick_tile(engine, player_1.id, 1)
+        subject.pick_tile(engine, player_1.id, 0)
+        expect(engine.players.first.tiles).to eq([tile_2, tile_1])
+      end
+
+      it 'when inserted large to small' do
+        subject.pick_tile(engine, player_1.id, 0)
+        subject.pick_tile(engine, player_1.id, 1)
+        expect(engine.players.first.tiles).to eq([tile_2, tile_1])
+      end
     end
   end
 
