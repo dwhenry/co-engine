@@ -1,10 +1,11 @@
 class CoEngine
   class Player
-    attr_accessor :id, :tiles
+    attr_accessor :id, :name, :tiles
 
-    def initialize(attributes)
-      self.id = attributes[:id]
-      self.tiles = attributes[:tiles] || []
+    def initialize(id:, name: "Player-#{Time.now.to_i}", tiles:[])
+      self.id = id
+      self.name = name
+      self.tiles = tiles
     end
 
     def ==(other)

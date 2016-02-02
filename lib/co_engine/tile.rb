@@ -3,11 +3,13 @@ class CoEngine
     LARGEST_NUMBER = 100
 
     attr_reader :color, :value, :owner_id
+    attr_accessor :visible
 
-    def initialize(color:, value:, owner_id: nil)
+    def initialize(color:, value:, owner_id: nil, visible: false)
       @color = color
       @value = value
       @owner_id = owner_id
+      self.visible = visible
     end
 
     def assign(player)
