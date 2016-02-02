@@ -4,7 +4,7 @@ class CoEngine
       attr_reader :data, :engine
 
       def initialize(data, engine=CoEngine.new)
-        @data = data
+        @data = data.is_a?(Hash) ? data : JSON.parse(data)
         @engine = engine
       end
 

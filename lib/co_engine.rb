@@ -1,5 +1,14 @@
+require 'json'
+
 require "co_engine/version"
 require "co_engine/errors"
+
+require "co_engine/loaders/json_exporter"
+require "co_engine/loaders/json_loader"
+
+require "co_engine/player"
+require "co_engine/tile"
+
 
 require "co_engine/states/base_state"
 require "co_engine/states/waiting_for_players"
@@ -28,6 +37,10 @@ class CoEngine
       CoEngine::Loaders::JsonLoader
     end
 
+    def exporter
+      CoEngine::Loaders::JsonExporter
+    end
+
     def load(data)
       loader.new(data).load
     end
@@ -47,4 +60,7 @@ class CoEngine
     state.actions
   end
 
+  def export
+    self.class.exporter.new(self).export
+  end
 end
