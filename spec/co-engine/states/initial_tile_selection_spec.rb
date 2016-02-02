@@ -10,6 +10,8 @@ RSpec.describe CoEngine::InitialTileSelection do
   let(:tile_2) { CoEngine::Tile.new(color: 'white', value: 3) }
   let(:engine) { Struct.new(:players, :tiles).new([player_1, player_2], [tile_1, tile_2]) }
 
+  subject { described_class }
+
   describe '#pick_tile' do
 
     it 'assigns the tile to the player' do
