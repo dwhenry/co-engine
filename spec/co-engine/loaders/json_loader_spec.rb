@@ -37,8 +37,8 @@ RSpec.describe CoEngine::Loaders::JsonLoader do
         expect(subject.state).to eq(CoEngine::InitialTileSelection)
       end
 
-      context 'and all players have tiles' do
-        let(:game_data) { { players: [{id: 345, tiles: [1,2,3,4,5,6]}, {id: 567, tiles: [7,8,9,10,11,12]}] } }
+      context 'and all players have finalized the initial selection' do
+        let(:game_data) { { players: [{id: 345}, {id: 567}], turns: [{type: CoEngine::HAND_FINALIZED}, {type: CoEngine::HAND_FINALIZED}] } }
 
         it 'has a state of "player to pick tile"' do
           expect(subject.state).to eq(CoEngine::PlayerToPickTile)
@@ -56,22 +56,25 @@ RSpec.describe CoEngine::Loaders::JsonLoader do
     end
 
     context 'game with two players' do
-      let(:game_data) { { players: [{id: 345, tiles: (0..5)}, {id: 567, tiles: (6..11)}] } }
+      let(:game_data) { { players: [{id: 345}, {id: 567}], turns: [{type: CoEngine::HAND_FINALIZED}, {type: CoEngine::HAND_FINALIZED}] } }
       let(:player_1) { CoEngine::Player.new(id: 345) }
       let(:player_2) { CoEngine::Player.new(id: 567) }
 
       it 'when one turn as been completed' do
-        game = described_class.new(game_data.merge(turns: [{state: 'complete'}]))
+        game_data[:turns] << {state: 'complete'}
+        game = described_class.new(game_data)
         expect(game.current_player).to eq(player_2)
       end
 
       it 'when two turn as been completed' do
-        game = described_class.new(game_data.merge(turns: [{state: 'complete'}, {state: 'complete'}]))
+        game_data[:turns] << {state: 'complete'} << {state: 'complete'}
+        game = described_class.new(game_data)
         expect(game.current_player).to eq(player_1)
       end
 
       it 'when one turn has been completed and another is pending' do
-        game = described_class.new(game_data.merge(turns: [{state: 'complete'}, {state: 'guess tile'}]))
+        game_data[:turns] << {state: 'complete'} << {state: 'guess tile'}
+        game = described_class.new(game_data)
         expect(game.current_player).to eq(player_2)
       end
     end

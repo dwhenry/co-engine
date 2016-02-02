@@ -12,5 +12,12 @@ class CoEngine
 
       engine.state = CoEngine::InitialTileSelection if engine.players.all?
     end
+
+    def self.view(engine, _player_id)
+      {
+        state: 'WaitingForPlayers',
+        players: engine.players.map { |p| { id: p && p.id, name: p ? p.name : 'pending' } }
+      }
+    end
   end
 end

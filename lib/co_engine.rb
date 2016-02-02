@@ -56,15 +56,19 @@ class CoEngine
     :turns,
     :tiles
 
-  def perform(action, *attr)
-    state.perform(action, self, *attr)
-  end
-
   def actions
     state.actions
   end
 
+  def perform(action, *attr)
+    state.perform(action, self, *attr)
+  end
+
   def export
     self.class.exporter.new(self).export
+  end
+
+  def view(player_id)
+    state.view(self, player_id)
   end
 end
