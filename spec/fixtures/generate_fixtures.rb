@@ -6,7 +6,7 @@ require 'co_engine'
 begin
   game = CoEngine.load(File.read("#{path}/one-of-three-players.json"))
 rescue => e
-  raise # comment out to rebuild from scratch
+  # raise # comment out to rebuild from scratch
   puts "Resorting to full game rebuild: #{e.message}"
   game = CoEngine.load(players: [nil, nil, nil])
   game.perform(:join, id: 123, name: 'john')
@@ -41,3 +41,7 @@ game.perform(:finalize_hand, 234)
 game.perform(:finalize_hand, 456)
 
 File.open("#{path}/finalized-starting-tiles.json", 'w') { |f| f.puts game.export }
+
+game.perform(:pick_tile, 123, 14)
+
+File.open("#{path}/picked-game-tile.json", 'w') { |f| f.puts game.export }
