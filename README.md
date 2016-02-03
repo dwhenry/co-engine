@@ -1,6 +1,6 @@
 # Co::Engine
 
-TODO: Write a gem description
+This is a gen to implement the game engine for a 'Code Breaker' style game
 
 ## Installation
 
@@ -20,7 +20,43 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+The gem is designed to be able to load or export the games state at any point (currently only via JSON).
+ 
+This is done using:
+
+    CoEngine.load(<json-data>) => <engine>
+    
+and:
+    
+    CoEngine.export => <json>
+
+### States
+
+The game is have 4 main states:
+
+* WaitingForPlayers
+* InitialTileSelection
+* GameTurn
+* Completed
+
+Each state has a specific list of actions that can be performed, to view the current list of actions call:
+
+    engine.actions
+    
+and to perform an action call:
+
+    engine.perform(<action_name>, *<action_args>)
+    
+Please read through the feature tests for further documentation on the available actions.
+
+Each **GameTurn** is composed of a series of process states:
+ 
+* TileSelection
+* GuessTile
+* FinaliseTurnOrGuessAgain
+* FinaliseTurn
+
+NOTE: you only enter the **FinaliseTurnOrGuessAgain** state if you correctly guess an opponents tile.  
 
 ## Contributing
 
