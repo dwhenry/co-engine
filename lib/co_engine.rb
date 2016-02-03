@@ -17,6 +17,7 @@ require "co_engine/states/initial_tile_selection"
 require "co_engine/states/tile_selection"
 require "co_engine/states/guess_tile"
 require "co_engine/states/finalise_turn"
+require "co_engine/states/finalise_turn_or_guess_again"
 
 require "co_engine/states/completed"
 
@@ -28,6 +29,7 @@ class CoEngine
     TileSelection,
     GuessTile,
     FinaliseTurn,
+    FinaliseTurnOrGuessAgain,
     Completed,
   ]
 
