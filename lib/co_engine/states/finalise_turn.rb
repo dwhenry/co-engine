@@ -13,16 +13,16 @@ class CoEngine
         raise CoEngine::NotYourTurn if engine.current_player.id != player_id
         raise CoEngine::HandAlreadyFinalized if engine.turns[-1].state == 'completed'
 
-        engine.turns[-1].state = 'completed'
 
-        completed_turns = engine.turns.select{ |turn| turn.state == 'complete' }.count
-        next_player = players[completed_turns % engine.players.count]
 
         engine.turns << {
           player_id: next_player.id,
           type: CoEngine::GAME_TURN,
           state: CoEngine::TileSelection.to_s,
         }
+        engine.turns[-1][:state] = CoEngine::Completed.to_s
+        completed_turns = engine.turns.select{ |turn| turn[:state] == CoEngine::Completed.to_s }.count
+        engine.current_player = engine.players[completed_turns % engine.players.count]
       end
 
       def view(engine, player_id)

@@ -256,17 +256,17 @@
     {
       "player_id": 123,
       "type": "HAND_FINALIZED",
-      "state": "completed"
+      "state": "CoEngine::Completed"
     },
     {
       "player_id": 234,
       "type": "HAND_FINALIZED",
-      "state": "completed"
+      "state": "CoEngine::Completed"
     },
     {
       "player_id": 456,
       "type": "HAND_FINALIZED",
-      "state": "completed"
+      "state": "CoEngine::Completed"
     },
     {
       "player_id": 123,

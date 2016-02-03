@@ -33,7 +33,7 @@ class CoEngine
         engine.turns << {
           player_id: player_id,
           type: CoEngine::HAND_FINALIZED,
-          state: 'completed',
+          state: CoEngine::Completed.to_s,
         }
         if engine.turns.count { |t| t[:type] == CoEngine::HAND_FINALIZED } == engine.players.count
           engine.state = CoEngine::TileSelection

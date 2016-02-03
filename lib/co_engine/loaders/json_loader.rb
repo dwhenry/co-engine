@@ -46,7 +46,7 @@ class CoEngine
 
       def current_player
         if state.started?
-          completed_turns = turns.select{|turn| turn[:state] == 'complete' }.count
+          completed_turns = turns.select{|turn| turn[:state] == CoEngine::Completed.to_s }.count
 
           players[completed_turns % players.count]
         end

@@ -10,7 +10,7 @@ class CoEngine
           unless engine.players.count { |p| p.tiles.all?(&:visible) } < engine.players.count - 1
             # finalise the game
             engine.state = CoEngine::Completed
-            engine.turns[-1][:state] = 'completed'
+            engine.turns[-1][:state] = CoEngine::Completed.to_s
           end
         else
           pending_tile = engine.current_player.tiles.detect { |t| t.pending }

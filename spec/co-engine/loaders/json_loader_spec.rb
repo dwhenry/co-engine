@@ -86,13 +86,13 @@ RSpec.describe CoEngine::Loaders::JsonLoader do
       let(:player_2) { CoEngine::Player.new(id: 567) }
 
       it 'when one turn as been completed' do
-        game_data[:turns] << {state: 'complete'} << {state: CoEngine::TileSelection.to_s}
+        game_data[:turns] << {state: CoEngine::Completed.to_s} << {state: CoEngine::TileSelection.to_s}
         game = described_class.new(game_data)
         expect(game.current_player).to eq(player_2)
       end
 
       it 'when two turn as been completed' do
-        game_data[:turns] << {state: 'complete'} << {state: 'complete'} << {state: CoEngine::TileSelection.to_s}
+        game_data[:turns] << {state: CoEngine::Completed.to_s} << {state: CoEngine::Completed.to_s} << {state: CoEngine::TileSelection.to_s}
         game = described_class.new(game_data)
         expect(game.current_player).to eq(player_1)
       end

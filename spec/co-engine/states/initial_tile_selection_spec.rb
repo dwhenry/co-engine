@@ -97,7 +97,7 @@ RSpec.describe CoEngine::InitialTileSelection do
       expect(engine.turns[0]).to eq(
         player_id: player_1.id,
         type: CoEngine::HAND_FINALIZED,
-        state: 'completed',
+        state: CoEngine::Completed.to_s,
       )
     end
 
