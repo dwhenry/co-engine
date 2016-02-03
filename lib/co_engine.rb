@@ -27,6 +27,7 @@ class CoEngine
     InitialTileSelection,
     TileSelection,
     GuessTile,
+    FinaliseTurn,
     Completed,
   ]
 

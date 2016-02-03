@@ -6,24 +6,27 @@ class CoEngine
         guess_tile = engine.players.detect { |p| p.id == guess[:player_id] }.tiles[guess[:tile_position]]
         if guess_tile == CoEngine::Tile.new(color: guess[:color], value: guess[:value])
           guess_tile.visible = true
+
+          if engine.players.count { |p| p.tiles.all?(&:visible) } < engine.players.count - 1
+            engine.state = CoEngine::FinaliseTurnOrGuessAgain
+            engine.turns[-1][:state] = CoEngine::FinaliseTurn.to_s
+          else
+            # finalise the game
+            engine.state = CoEngine::Completed
+            engine.turns[-1][:state] = 'completed'
+          end
         else
           pending_tile = engine.current_player.tiles.detect { |t| t.pending }
           pending_tile.visible = true
-        end
 
-        if engine.players.count { |p| p.tiles.all?(&:visible) } < engine.players.count - 2
           engine.state = CoEngine::FinaliseTurn
           engine.turns[-1][:state] = CoEngine::FinaliseTurn.to_s
-        else
-          # finalise the game
-          engine.state = CoEngine::Completed
-          engine.turns[-1][:state] = 'completed'
         end
       end
 
       def view(engine, player_id)
         {
-          state: 'PickTile',
+          state: 'GuessTile',
           players: engine.players.map { |p| { id: p.id, name: p.name, tiles: tiles(p.tiles, p.id == player_id) } },
           current_player_position: engine.players.index(engine.current_player),
           tiles: engine.tiles.map { |t| { color: t.color, selected: !t.owner_id.nil? } }
