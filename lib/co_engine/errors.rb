@@ -19,5 +19,5 @@ class CoEngine
 
   # Other
   class CorruptGame < CoEngine::Error; end # occurs if the game is determine to be in an invalid state and require manual fix
-
+  class NotYourTurn < CoEngine::Error; end
 end

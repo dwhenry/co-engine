@@ -4,13 +4,13 @@ class CoEngine
 
     class << self
       def pick_tile(engine, player_id, tile_index)
-        player = engine.players.detect { |p| p.id == player_id }
+        raise CoEngine::NotYourTurn if engine.current_player.id != player_id
         tile = engine.tiles[tile_index]
         raise CoEngine::TileAlreadyAllocated if tile.owner_id
         tile.pending = true
-        index = player.tiles.find_index { |t| tile < t } || END_POSITION
-        player.tiles.insert(index, tile)
-        tile.owner_id = player.id
+        index = engine.current_player.tiles.find_index { |t| tile < t } || END_POSITION
+        engine.current_player.tiles.insert(index, tile)
+        tile.owner_id = player_id
 
         engine.state = CoEngine::GuessTile
         engine.turns[-1][:state] = CoEngine::GuessTile.to_s

@@ -1,7 +1,4 @@
-require 'co_engine/states/base_state'
-require 'co_engine/states/initial_tile_selection'
-require 'co_engine/player'
-require 'co_engine/tile'
+require 'co_engine'
 
 RSpec.describe CoEngine::InitialTileSelection do
   let(:player_1) { CoEngine::Player.new(id: 123) }

@@ -1,5 +1,4 @@
-require 'co_engine/states/base_state'
-require 'co_engine/states/waiting_for_players'
+require 'co_engine'
 
 RSpec.describe CoEngine::WaitingForPlayers do
   describe '#join' do

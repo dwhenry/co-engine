@@ -1,7 +1,4 @@
-require 'co_engine/states/base_state'
-require 'co_engine/states/tile_selection'
-require 'co_engine/player'
-require 'co_engine/tile'
+require 'co_engine'
 
 RSpec.describe CoEngine::TileSelection do
   let(:player_1) { CoEngine::Player.new(id: 123) }
@@ -9,11 +6,12 @@ RSpec.describe CoEngine::TileSelection do
   let(:tile_1) { CoEngine::Tile.new(color: 'black', value: 8) }
   let(:tile_2) { CoEngine::Tile.new(color: 'white', value: 3) }
   let(:engine) {
-    Struct.new(:players, :tiles, :turns, :state).new(
+    Struct.new(:players, :tiles, :turns, :state, :current_player).new(
       [player_1, player_2],
       [tile_1, tile_2],
       [{player_id: player_1.id, type: CoEngine::GAME_TURN, state: described_class.to_s}],
-      described_class) }
+      described_class,
+      player_1) }
 
   subject { described_class }
 
@@ -57,6 +55,10 @@ RSpec.describe CoEngine::TileSelection do
       subject.pick_tile(engine, player_1.id, 0)
 
       expect(engine.state).not_to eq(described_class)
+    end
+
+    it 'raises an error if a the player attempting to take a tile is not the current player' do
+      expect { subject.pick_tile(engine, player_2.id, 0) }.to raise_error(CoEngine::NotYourTurn)
     end
   end
 end
