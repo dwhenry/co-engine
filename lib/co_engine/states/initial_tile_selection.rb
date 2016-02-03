@@ -42,6 +42,7 @@ class CoEngine
             type: CoEngine::GAME_TURN,
             state: CoEngine::TileSelection.to_s,
           }
+          engine.current_player = engine.players[0]
         end
       end
 

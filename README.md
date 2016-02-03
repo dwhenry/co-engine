@@ -1,4 +1,4 @@
-# Co::Engine
+# CoEngine
 
 This is a gen to implement the game engine for a 'Code Breaker' style game
 
@@ -60,7 +60,7 @@ NOTE: you only enter the **FinaliseTurnOrGuessAgain** state if you correctly gue
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/co-engine/fork )
+1. Fork it ( https://github.com/dwhenry/co-engine/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
