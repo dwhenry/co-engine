@@ -28,7 +28,7 @@ This is done using:
     
 and:
     
-    CoEngine.export => <json>
+    <engine>.export => <json>
 
 ### States
 
