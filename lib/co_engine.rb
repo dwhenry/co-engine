@@ -75,8 +75,8 @@ class CoEngine
     state.perform(action, self, *attr)
   end
 
-  def export
-    self.class.exporter.new(self).export
+  def export(*args)
+    self.class.exporter.new(self).export(*args)
   end
 
   def view(player_id)
