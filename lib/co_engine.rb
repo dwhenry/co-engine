@@ -67,12 +67,12 @@ class CoEngine
     :turns,
     :tiles
 
-  def actions
-    state.actions
+  def actions(player_id)
+    state.actions(is_current: current_player.id == player_id)
   end
 
-  def perform(action, *attr)
-    state.perform(action, self, *attr)
+  def perform(action, player_id, *attr)
+    state.perform(action, self, player_id, *attr)
   end
 
   def export(*args)

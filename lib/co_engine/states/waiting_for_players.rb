@@ -4,9 +4,9 @@ class CoEngine
       false
     end
 
-    def self.join(engine, player)
+    def self.join(engine, player_id, attributes)
       raise(CoEngine::GameFull) if engine.players.all?
-      new_player = CoEngine::Player.new(player)
+      new_player = CoEngine::Player.new(attributes.merge(id: player_id))
       raise(CoEngine::PlayerAlreadyInGame) if engine.players.detect { |p| new_player == p }
       engine.players[engine.players.index(nil)] = new_player
 

@@ -9,13 +9,13 @@ rescue => e
   # raise # comment out to rebuild from scratch
   puts "Resorting to full game rebuild: #{e.message}"
   game = CoEngine.load(players: [nil, nil, nil])
-  game.perform(:join, id: 123, name: 'john')
+  game.perform(:join, 123, name: 'john')
 end
 
 File.open("#{path}/one-of-three-players.json", 'w') { |f| f.puts game.export(pretty: true) }
 
-game.perform(:join, id: 234, name: 'bob')
-game.perform(:join, id: 456, name: 'jones')
+game.perform(:join, 234, name: 'bob')
+game.perform(:join, 456, name: 'jones')
 
 File.open("#{path}/three-of-three-players.json", 'w') { |f| f.puts game.export(pretty: true) }
 

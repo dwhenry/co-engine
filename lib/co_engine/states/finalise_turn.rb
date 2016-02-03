@@ -1,6 +1,10 @@
 class CoEngine
   class FinaliseTurn < BaseState
     class << self
+      def actions_visible_to_all?
+        false
+      end
+
       def move_tile(engine, player_id, tile_position)
         raise CoEngine::NotYourTurn if engine.current_player.id != player_id
         raise CoEngine::SwapPositionOutOfBounds if tile_position < 0 || tile_position >= (engine.current_player.tiles.count - 1)

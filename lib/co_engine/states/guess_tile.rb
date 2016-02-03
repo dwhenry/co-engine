@@ -1,6 +1,10 @@
 class CoEngine
   class GuessTile < BaseState
     class << self
+      def self.actions_visible_to_all?
+        false
+      end
+
       def guess(engine, player_id, guess)
         raise CoEngine::NotYourTurn if engine.current_player.id != player_id
         guess_tile = engine.players.detect { |p| p.id == guess[:player_id] }.tiles[guess[:tile_position]]

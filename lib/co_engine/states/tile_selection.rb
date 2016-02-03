@@ -3,6 +3,10 @@ class CoEngine
     END_POSITION = -1
 
     class << self
+      def actions_visible_to_all?
+        false
+      end
+
       def pick_tile(engine, player_id, tile_index)
         raise CoEngine::NotYourTurn if engine.current_player.id != player_id
         tile = engine.tiles[tile_index]
