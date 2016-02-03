@@ -32,11 +32,15 @@ class CoEngine
         elsif turns.count { |t| t[:type] == CoEngine::HAND_FINALIZED } < players.count
           CoEngine::InitialTileSelection
         else
-          turn_state = turns[-1][:state]
-          {
-            'CoEngine::TileSelection' => CoEngine::TileSelection,
-            'CoEngine::GuessTile' => CoEngine::GuessTile
-          }[turn_state] || raise(CoEngine::CorruptGame, "invalid game state detected: '#{turn_state}'")
+          if players.count { |p| p.tiles.any? && p.tiles.all?(&:visible) } < players.count - 1
+            turn_state = turns[-1][:state]
+            {
+              'CoEngine::TileSelection' => CoEngine::TileSelection,
+              'CoEngine::GuessTile' => CoEngine::GuessTile
+            }[turn_state] || raise(CoEngine::CorruptGame, "invalid game state detected: '#{turn_state}'")
+          else
+            CoEngine::Completed
+          end
         end
       end
 
