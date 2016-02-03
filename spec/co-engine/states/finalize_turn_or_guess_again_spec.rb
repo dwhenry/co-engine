@@ -1,6 +1,6 @@
 require 'co_engine'
 
-RSpec.describe CoEngine::GuessTile do
+RSpec.describe CoEngine::FinaliseTurnOrGuessAgain do
   let(:player_1) { CoEngine::Player.new(id: 123, tiles: [tile_3, tile_1]) }
   let(:player_2) { CoEngine::Player.new(id: 456, tiles: [tile_2, tile_4]) }
   let(:tile_1) { CoEngine::Tile.new(color: 'black', value: 8) }
@@ -24,12 +24,6 @@ RSpec.describe CoEngine::GuessTile do
         subject.guess(engine, 123, {player_id: 456, tile_position: 0, color: 'white', value: 3})
 
         expect(tile_2.visible).to be true
-      end
-
-      it 'advances the game state' do
-        subject.guess(engine, 123, {player_id: 456, tile_position: 0, color: 'white', value: 3})
-
-        expect(engine.state).not_to eq(described_class)
       end
 
       context 'when all other players are out of non-visible tiles' do
