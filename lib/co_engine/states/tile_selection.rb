@@ -18,28 +18,23 @@ class CoEngine
 
       def view(engine, player_id)
         {
-          state: 'InitialTileSelection',
+          state: 'PickTile',
           players: engine.players.map { |p| { id: p.id, name: p.name, tiles: tiles(p.tiles, p.id == player_id) } },
+          current_player_position: engine.players.index(engine.current_player),
           tiles: engine.tiles.map { |t| { color: t.color, selected: !t.owner_id.nil? } }
         }
       end
 
       private
 
-      def tiles(tiles, show_value)
-        if show_value
-          tiles.map do |t|
-            {
-              color: t.color,
-              value: t.value || '?',
-            }
-          end
-        else
-          tiles.sort_by(&:color).map do |t|
-            {
-              color: t.color,
-            }
-          end
+      def tiles(tiles, show_values)
+        tiles = tiles.sort_by(&:pending) unless show_values
+
+        tiles.map do |t|
+          r = { color: t.color }
+          r[:value] = t.value || '?' if show_values || t.visible
+          r[:pending] = true  if t.pending
+          r
         end
       end
     end

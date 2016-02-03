@@ -27,7 +27,7 @@ class CoEngine
       #--------
 
       def state
-        if !players.all? == true
+        if !players.all?
           CoEngine::WaitingForPlayers
         elsif turns.count { |t| t[:type] == CoEngine::HAND_FINALIZED } < players.count
           CoEngine::InitialTileSelection
@@ -58,7 +58,6 @@ class CoEngine
             tiles = (player[:tiles] || []).map { |t| CoEngine::Tile.new(t) }
             CoEngine::Player.new(player.merge(tiles: tiles))
           end
-
         end
       end
 

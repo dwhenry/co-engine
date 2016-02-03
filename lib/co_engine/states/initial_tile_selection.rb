@@ -38,7 +38,7 @@ class CoEngine
         if engine.turns.count { |t| t[:type] == CoEngine::HAND_FINALIZED } == engine.players.count
           engine.state = CoEngine::TileSelection
           engine.turns << {
-            player_id: engine.players[0],
+            player_id: engine.players[0].id,
             type: CoEngine::GAME_TURN,
             state: CoEngine::TileSelection.to_s,
           }
@@ -55,8 +55,8 @@ class CoEngine
 
       private
 
-      def tiles(tiles, show_value)
-        if show_value
+      def tiles(tiles, show_values)
+        if show_values
           tiles.map do |t|
             {
               color: t.color,
