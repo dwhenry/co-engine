@@ -1,10 +1,24 @@
 class CoEngine
   class TileSelection < BaseState
     END_POSITION = -1
+    NEXT_STATE = CoEngine::GuessTile
 
     class << self
       def actions_visible_to_all?
         false
+      end
+
+      def actions(is_current:)
+        super - [:next_state] # this is a public, but internal method
+      end
+
+
+      def next_state(engine)
+        if engine.tiles.any? { |t| t.owner_id.nil? }
+          self
+        else
+          NEXT_STATE
+        end
       end
 
       def pick_tile(engine, player_id, tile_index)
@@ -16,8 +30,8 @@ class CoEngine
         engine.current_player.tiles.insert(index, tile)
         tile.owner_id = player_id
 
-        engine.state = CoEngine::GuessTile
-        engine.turns[-1][:state] = CoEngine::GuessTile.to_s
+        engine.state = NEXT_STATE
+        engine.turns[-1][:state] = NEXT_STATE.to_s
       end
 
       def view(engine, player_id)

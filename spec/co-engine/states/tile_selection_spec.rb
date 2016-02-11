@@ -15,6 +15,26 @@ RSpec.describe CoEngine::TileSelection do
 
   subject { described_class }
 
+  describe '#next_state' do
+    context 'when tiles are left to pick' do
+      it 'is the current state' do
+        expect(subject.next_state(engine)).to eq(described_class)
+      end
+    end
+
+    context 'when no tiles are left to pick' do
+      before do
+        tile_1.owner_id = player_1.id
+        tile_2.owner_id = player_2.id
+      end
+
+      it 'is the guess tile state' do
+        expect(subject.next_state(engine)).to eq(CoEngine::GuessTile)
+      end
+    end
+
+  end
+
   describe '#pick_tile' do
 
     it 'assigns the tile to the player' do

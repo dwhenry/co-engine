@@ -24,7 +24,7 @@ class CoEngine
         engine.turns << {
           player_id: engine.current_player.id,
           type: CoEngine::GAME_TURN,
-          state: CoEngine::TileSelection.to_s,
+          state: CoEngine::TileSelection.next_state(engine).to_s,
         }
       end
 
