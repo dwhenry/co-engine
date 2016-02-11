@@ -1,8 +1,10 @@
 require 'co_engine'
 
 RSpec.describe CoEngine::Loaders::JsonLoader do
+  let(:game_type) { nil }
+
   describe '#load' do
-    subject { described_class.new(game_data) }
+    subject { described_class.new(game_data.merge(game_type: game_type)) }
 
     context 'loading a game without players' do
       it 'when no player data it raises an error' do
@@ -106,6 +108,44 @@ RSpec.describe CoEngine::Loaders::JsonLoader do
           CoEngine::Tile.new(color: 'black', value: 1),
           CoEngine::Tile.new(color: 'black', value: 5),
         ])
+      end
+    end
+
+    context 'tile initialization' do
+      let(:game_data) { { players: [{id: 345}, {id: 567}] } }
+
+      context 'when game_type is not set' do
+        it 'only has numbered tiles' do
+          expect(subject.tiles.select { |t| t.value.nil? }).to eq([])
+        end
+      end
+
+      context 'when game_type is -1' do
+        let(:game_type) { -1 }
+
+        it 'only has numbered tiles' do
+          expect(subject.tiles.select { |t| t.value.nil? }).to eq([])
+        end
+      end
+
+      context 'when game_type is 0' do
+        let(:game_type) { 0 }
+
+        it 'expects a black blank tile' do
+          expect(subject.tiles.select { |t| t.value.nil? }).to eq([CoEngine::Tile.new(color: 'black', value: nil)])
+        end
+      end
+
+      context 'when game_type is 1' do
+        let(:game_type) { 1 }
+
+        it 'expects white and black blank tiles' do
+          expect(subject.tiles.select { |t| t.value.nil? }).to eq([
+            CoEngine::Tile.new(color: 'white', value: nil),
+            CoEngine::Tile.new(color: 'black', value: nil),
+          ])
+        end
+
       end
     end
   end

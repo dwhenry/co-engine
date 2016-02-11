@@ -46,7 +46,6 @@ class CoEngine
     6 => 2,
   }
 
-
   class << self
     def loader
       CoEngine::Loaders::JsonLoader

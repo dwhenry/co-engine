@@ -1,6 +1,8 @@
 class CoEngine
   module Loaders
     class JsonLoader
+      MAX_TILES = 11
+
       attr_reader :data, :engine
 
       def initialize(data, engine=CoEngine.new)
@@ -71,9 +73,14 @@ class CoEngine
             CoEngine::Tile.new(tile)
           end
         else
-          %w{black white}.flat_map do |color|
-            (0..9).map do |value|
+          %w{black white}.each_with_index.flat_map do |color, i|
+            (0..MAX_TILES).map do |value|
               CoEngine::Tile.new(color: color, value: value)
+            end +
+            if i <= (@data[:game_type] || -1)
+              [CoEngine::Tile.new(color: color, value: nil)]
+            else
+              []
             end
           end.shuffle
         end
