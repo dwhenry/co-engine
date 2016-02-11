@@ -58,6 +58,15 @@ Each **GameTurn** is composed of a series of process states:
 
 NOTE: you only enter the **FinaliseTurnOrGuessAgain** state if you correctly guess an opponents tile.  
 
+# Game Rules
+
+The game is based off the following rules for the [coda game)(https://en.wikipedia.org/wiki/Coda_(board_game)).
+
+## Except for the following exceptions:
+
+* the game can be played by 2-6 people
+* black and white tiles are interchangable - ie. black tiles are neither less than or greater than the corresponding white tiles with the same numeric value. 
+
 ## Contributing
 
 1. Fork it ( https://github.com/dwhenry/co-engine/fork )
