@@ -67,7 +67,7 @@ class CoEngine
     :tiles
 
   def actions(player_id)
-    state.actions(is_current: current_player.id == player_id)
+    state.actions(is_current: !!current_player && current_player.id == player_id)
   end
 
   def perform(action, player_id, *attr)
@@ -80,5 +80,12 @@ class CoEngine
 
   def view(player_id)
     state.view(self, player_id)
+  end
+
+  def winner
+    return nil if [WaitingForPlayers, InitialTileSelection].include?(state)
+
+    winners = players.select { |p| p && p.tiles.any? { |t| !t.visible } }
+    winners.count == 1 ? { id: winners.first.id, name: winners.first.name } : nil
   end
 end

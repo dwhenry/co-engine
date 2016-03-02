@@ -18,9 +18,9 @@ RSpec.describe 'Player 1 know all' do
       expect(subject.state).to eq(CoEngine::Completed)
       expect(subject.view(123)).to include(
         state: "Completed",
-        winner: "bob"
+        winner: "john"
       )
-
+      expect(subject.winner).to eq(id: 123, name: "john")
     end
   end
 

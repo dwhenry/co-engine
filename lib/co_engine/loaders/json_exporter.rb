@@ -7,13 +7,15 @@ class CoEngine
         @engine = engine
       end
 
-      def export(pretty: false)
+      def export(pretty: false, json: true)
         data = {
           players: players,
           tiles: tiles(engine),
           turns: turns
         }
-        pretty ? JSON.pretty_unparse(data) : data.to_json
+        return data         unless json
+        return data.to_json unless pretty
+        JSON.pretty_unparse(data)
       end
 
       def turns

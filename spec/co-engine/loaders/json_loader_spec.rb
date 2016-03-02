@@ -140,7 +140,7 @@ RSpec.describe CoEngine::Loaders::JsonLoader do
         let(:game_type) { 1 }
 
         it 'expects white and black blank tiles' do
-          expect(subject.tiles.select { |t| t.value.nil? }).to eq([
+          expect(subject.tiles.select { |t| t.value.nil? }).to match_array([
             CoEngine::Tile.new(color: 'white', value: nil),
             CoEngine::Tile.new(color: 'black', value: nil),
           ])
