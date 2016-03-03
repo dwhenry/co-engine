@@ -47,7 +47,7 @@ class CoEngine
         tiles = tiles.sort_by{ |t| t.pending ? 0 : 1 } unless show_values # move pending to beginning of list
 
         tiles.map do |t|
-          r = { color: t.color }
+          r = { color: t.color, visible: t.visible }
           r[:value] = t.value || '?' if show_values || t.visible
           r[:pending] = true  if t.pending
           r
