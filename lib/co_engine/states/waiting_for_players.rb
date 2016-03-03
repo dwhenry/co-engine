@@ -19,5 +19,13 @@ class CoEngine
         players: engine.players.map { |p| { id: p && p.id, name: p ? p.name : 'pending' } }
       }
     end
+
+    def self.actions_visible_to_all?
+      false
+    end
+
+    def self.actions(is_current:)
+      super(is_current: !is_current)
+    end
   end
 end

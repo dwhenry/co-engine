@@ -67,7 +67,8 @@ class CoEngine
     :tiles
 
   def actions(player_id)
-    state.actions(is_current: !!current_player && current_player.id == player_id)
+    current_players = Array(current_player || players)
+    state.actions(is_current: current_players.any? { |p| p.id == player_id})
   end
 
   def perform(action, player_id, *attr)

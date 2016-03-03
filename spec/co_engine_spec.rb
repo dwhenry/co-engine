@@ -32,12 +32,24 @@ RSpec.describe CoEngine do
   describe '#actions' do
     before do
       subject.current_player = double(:player, id: 123)
+      subject.players = [double(:player, id: 123)]
     end
 
     context 'for each given state' do
-      it 'WaitingForPlayers' do
-        subject.state = CoEngine::WaitingForPlayers
-        expect(subject.actions(123)).to eq([:join])
+      context 'WaitingForPlayers' do
+        before do
+          subject.current_player = nil
+        end
+
+        it 'when not already a player in the game' do
+          subject.state = CoEngine::WaitingForPlayers
+          expect(subject.actions(456)).to eq([:join])
+        end
+
+        it 'when already a player in the game' do
+          subject.state = CoEngine::WaitingForPlayers
+          expect(subject.actions(123)).to eq([])
+        end
       end
 
       it 'InitialTileSelection' do
