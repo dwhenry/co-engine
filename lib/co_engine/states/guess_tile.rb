@@ -7,7 +7,7 @@ class CoEngine
 
       def guess(engine, player_id, guess)
         raise CoEngine::NotYourTurn if engine.current_player.id != player_id
-        guess_tile = engine.players.detect { |p| p.id == guess[:player_id] }.tiles[guess[:tile_position]]
+        guess_tile = engine.players.detect { |p| p.id == player_id }.tiles[guess[:tile_position]]
         if guess_tile == CoEngine::Tile.new(color: guess[:color], value: guess[:value])
           guess_tile.visible = true
 

@@ -19,9 +19,15 @@ RSpec.describe CoEngine::GuessTile do
   subject { described_class }
 
   describe '#guess' do
+    it 'works when numbers are passed as strings' do
+      expect do
+        subject.perform(:guess, engine, 123, {player_id: "456", tile_position: "0", color: 'white', value: "3"})
+      end.not_to raise_error
+    end
+
     context 'when guess is correct' do
       it 'makes the opponents tile visible' do
-        subject.guess(engine, 123, {player_id: 456, tile_position: 0, color: 'white', value: 3})
+        subject.perform(:guess, engine, 123, {player_id: 456, tile_position: 0, color: 'white', value: 3})
 
         expect(tile_2.visible).to be true
       end
