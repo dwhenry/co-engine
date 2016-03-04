@@ -21,21 +21,21 @@ RSpec.describe CoEngine::FinaliseTurn do
 
   describe '#move_tile' do
     it 'raises an error unless current player' do
-      expect { subject.move_tile(engine, player_2.id, 0) }.to raise_error(CoEngine::NotYourTurn)
+      expect { subject.move_tile(engine, player_2.id, tile_position: 0) }.to raise_error(CoEngine::NotYourTurn)
     end
 
     it 'allows adjacent tiles to be swapped' do
-      subject.move_tile(engine, player_1.id, 1)
+      subject.move_tile(engine, player_1.id, tile_position: 1)
       expect(player_1.tiles).to eq([tile_5, tile_3, tile_1])
     end
 
     it 'raises if attempting to swap tiles with an out of bounds index' do
-      expect { subject.move_tile(engine, player_1.id, -1) }.to raise_error(CoEngine::SwapPositionOutOfBounds)
-      expect { subject.move_tile(engine, player_1.id, player_1.tiles.count-1) }.to raise_error(CoEngine::SwapPositionOutOfBounds)
+      expect { subject.move_tile(engine, player_1.id, tile_position: -1) }.to raise_error(CoEngine::SwapPositionOutOfBounds)
+      expect { subject.move_tile(engine, player_1.id, tile_position: player_1.tiles.count-1) }.to raise_error(CoEngine::SwapPositionOutOfBounds)
     end
 
     it 'raise an error if swapping tiles breaks ordering requirements' do
-      expect { subject.move_tile(engine, player_1.id, 0) }.to raise_error(CoEngine::TilesOutOfOrder)
+      expect { subject.move_tile(engine, player_1.id, tile_position: 0) }.to raise_error(CoEngine::TilesOutOfOrder)
     end
 
     it 'allows blank tiles to be swapped with any other tile' do
@@ -43,9 +43,9 @@ RSpec.describe CoEngine::FinaliseTurn do
 
       player_1.tiles << tile_blank
 
-      subject.move_tile(engine, player_1.id, 2)
-      subject.move_tile(engine, player_1.id, 1)
-      subject.move_tile(engine, player_1.id, 0)
+      subject.move_tile(engine, player_1.id, tile_position: 2)
+      subject.move_tile(engine, player_1.id, tile_position: 1)
+      subject.move_tile(engine, player_1.id, tile_position: 0)
       expect(player_1.tiles).to eq([tile_blank, tile_5, tile_1, tile_3])
     end
   end

@@ -7,7 +7,9 @@ class CoEngine
         false
       end
 
-      def pick_tile(engine, player_id, tile_index)
+      def pick_tile(engine, player_id, args)
+        tile_index = args[:tile_index]
+
         player = engine.players.detect { |p| p.id == player_id }
         raise CoEngine::TileAllocationLimitExceeded if player.tiles.count >= CoEngine::MIN_TILE_COUNT[engine.players.count]
         tile = engine.tiles[tile_index]
@@ -18,7 +20,9 @@ class CoEngine
         tile.owner_id = player.id
       end
 
-      def move_tile(engine, player_id, tile_position)
+      def move_tile(engine, player_id, args)
+        tile_position = args[:tile_position]
+
         player = engine.players.detect { |p| p.id == player_id }
         raise CoEngine::SwapPositionOutOfBounds if tile_position < 0 || tile_position >= (player.tiles.compact.count - 1)
         raise CoEngine::TilesOutOfOrder if player.tiles[tile_position] < player.tiles[tile_position + 1]

@@ -18,34 +18,34 @@ RSpec.describe CoEngine::InitialTileSelection do
 
     it 'assigns the tile to the player' do
       tile_index = 1 # position in array
-      subject.pick_tile(engine, player_1.id, tile_index)
+      subject.pick_tile(engine, player_1.id, tile_index: tile_index)
       expect(engine.players.first.tiles).to eq([tile_2])
     end
 
     it 'raises an error if tile has already been assigned' do
       tile_index = 1 # position in array
-      subject.pick_tile(engine, player_1.id, tile_index)
+      subject.pick_tile(engine, player_1.id, tile_index: tile_index)
 
-      expect { subject.pick_tile(engine, player_1.id, tile_index) }.to raise_error(CoEngine::TileAlreadyAllocated)
+      expect { subject.pick_tile(engine, player_1.id, tile_index: tile_index) }.to raise_error(CoEngine::TileAlreadyAllocated)
     end
 
     it 'raises an error if the user has already reached the initial tile limit' do
       player_1.tiles << 1 << 2 << 3 << 4 << 5 << 6
       tile_index = 1 # position in array
 
-      expect { subject.pick_tile(engine, player_1.id, tile_index) }.to raise_error(CoEngine::TileAllocationLimitExceeded)
+      expect { subject.pick_tile(engine, player_1.id, tile_index: tile_index) }.to raise_error(CoEngine::TileAllocationLimitExceeded)
     end
 
     context 'correctly orders tiles' do
       it 'when inserted small to large' do
-        subject.pick_tile(engine, player_1.id, 1)
-        subject.pick_tile(engine, player_1.id, 0)
+        subject.pick_tile(engine, player_1.id, tile_index: 1)
+        subject.pick_tile(engine, player_1.id, tile_index: 0)
         expect(engine.players.first.tiles).to eq([tile_2, tile_1])
       end
 
       it 'when inserted large to small' do
-        subject.pick_tile(engine, player_1.id, 0)
-        subject.pick_tile(engine, player_1.id, 1)
+        subject.pick_tile(engine, player_1.id, tile_index: 0)
+        subject.pick_tile(engine, player_1.id, tile_index: 1)
         expect(engine.players.first.tiles).to eq([tile_2, tile_1])
       end
     end
@@ -61,27 +61,27 @@ RSpec.describe CoEngine::InitialTileSelection do
     end
 
     it 'allows adjacent tiles to be swapped' do
-      subject.move_tile(engine, player_1.id, 2)
+      subject.move_tile(engine, player_1.id, tile_position: 2)
       expect(player_1.tiles).to eq([tile_4, tile_2, tile_3, tile_1])
     end
 
     it 'raises if attempting to swap tiles with an out of bounds index' do
-      expect { subject.move_tile(engine, player_1.id, -1) }.to raise_error(CoEngine::SwapPositionOutOfBounds)
-      expect { subject.move_tile(engine, player_1.id, player_1.tiles.count-1) }.to raise_error(CoEngine::SwapPositionOutOfBounds)
+      expect { subject.move_tile(engine, player_1.id, tile_position: -1) }.to raise_error(CoEngine::SwapPositionOutOfBounds)
+      expect { subject.move_tile(engine, player_1.id, tile_position: player_1.tiles.count-1) }.to raise_error(CoEngine::SwapPositionOutOfBounds)
 
       # can not swap with unselected tile
       player_2.tiles << tile_2 << tile_1 << nil
-      expect { subject.move_tile(engine, player_2.id, 1) }.to raise_error(CoEngine::SwapPositionOutOfBounds)
+      expect { subject.move_tile(engine, player_2.id, tile_position: 1) }.to raise_error(CoEngine::SwapPositionOutOfBounds)
     end
 
     it 'raise an error if swapping tiles breaks ordering requirements' do
-      expect { subject.move_tile(engine, player_1.id, 1) }.to raise_error(CoEngine::TilesOutOfOrder)
+      expect { subject.move_tile(engine, player_1.id, tile_position: 1) }.to raise_error(CoEngine::TilesOutOfOrder)
     end
 
     it 'allows blank tiles to be swapped with any other tile' do
-      subject.move_tile(engine, player_1.id, 0)
-      subject.move_tile(engine, player_1.id, 1)
-      subject.move_tile(engine, player_1.id, 2)
+      subject.move_tile(engine, player_1.id, tile_position: 0)
+      subject.move_tile(engine, player_1.id, tile_position: 1)
+      subject.move_tile(engine, player_1.id, tile_position: 2)
       expect(player_1.tiles).to eq([tile_2, tile_1, tile_3, tile_4])
     end
   end

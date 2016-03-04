@@ -39,31 +39,31 @@ RSpec.describe CoEngine::TileSelection do
 
     it 'assigns the tile to the player' do
       tile_index = 1 # position in array
-      subject.pick_tile(engine, player_1.id, tile_index)
+      subject.pick_tile(engine, player_1.id, tile_index: tile_index)
       expect(engine.players.first.tiles).to eq([tile_2])
     end
 
     it 'raises an error if tile has already been assigned' do
       tile_index = 1 # position in array
-      subject.pick_tile(engine, player_1.id, tile_index)
+      subject.pick_tile(engine, player_1.id, tile_index: tile_index)
 
-      expect { subject.pick_tile(engine, player_1.id, tile_index) }.to raise_error(CoEngine::TileAlreadyAllocated)
+      expect { subject.pick_tile(engine, player_1.id, tile_index: tile_index) }.to raise_error(CoEngine::TileAlreadyAllocated)
     end
 
     it 'arranges tiles in value order regardless of selection order' do
       engine.players.first.tiles << tile_1
-      subject.pick_tile(engine, player_1.id, 1)
+      subject.pick_tile(engine, player_1.id, tile_index: 1)
       expect(engine.players.first.tiles).to eq([tile_2, tile_1])
     end
 
     it 'marks the tile as pending - affects how other players see it' do
       expect(tile_1.pending).to be false
-      subject.pick_tile(engine, player_1.id, 0)
+      subject.pick_tile(engine, player_1.id, tile_index: 0)
       expect(tile_1.pending).to be true
     end
 
     it 'sets the turn state to "GuessTile"' do
-      subject.pick_tile(engine, player_1.id, 0)
+      subject.pick_tile(engine, player_1.id, tile_index: 0)
       expect(engine.turns[0]).to eq(
         player_id: player_1.id,
         type: CoEngine::GAME_TURN,
@@ -72,13 +72,13 @@ RSpec.describe CoEngine::TileSelection do
     end
 
     it 'advances the game state' do
-      subject.pick_tile(engine, player_1.id, 0)
+      subject.pick_tile(engine, player_1.id, tile_index: 0)
 
       expect(engine.state).not_to eq(described_class)
     end
 
     it 'raises an error if a the player attempting to take a tile is not the current player' do
-      expect { subject.pick_tile(engine, player_2.id, 0) }.to raise_error(CoEngine::NotYourTurn)
+      expect { subject.pick_tile(engine, player_2.id, tile_index: 0) }.to raise_error(CoEngine::NotYourTurn)
     end
   end
 end

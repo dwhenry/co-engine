@@ -21,7 +21,8 @@ class CoEngine
         end
       end
 
-      def pick_tile(engine, player_id, tile_index)
+      def pick_tile(engine, player_id, args)
+        tile_index = args[:tile_index]
         raise CoEngine::NotYourTurn if engine.current_player.id != player_id
         tile = engine.tiles[tile_index]
         raise CoEngine::TileAlreadyAllocated if tile.owner_id

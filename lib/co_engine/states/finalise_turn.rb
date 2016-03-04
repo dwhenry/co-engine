@@ -5,7 +5,8 @@ class CoEngine
         false
       end
 
-      def move_tile(engine, player_id, tile_position)
+      def move_tile(engine, player_id, args)
+        tile_position = args[:tile_position]
         raise CoEngine::NotYourTurn if engine.current_player.id != player_id
         raise CoEngine::SwapPositionOutOfBounds if tile_position < 0 || tile_position >= (engine.current_player.tiles.count - 1)
         raise CoEngine::TilesOutOfOrder if engine.current_player.tiles[tile_position] < engine.current_player.tiles[tile_position + 1]
