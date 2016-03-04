@@ -7,13 +7,16 @@ class CoEngine
 
       def guess(engine, player_id, guess)
         raise CoEngine::NotYourTurn if engine.current_player.id != player_id
-        guess_tile = engine.players.detect { |p| p.id == player_id }.tiles[guess[:tile_position]]
+        guess_tile = engine.players.detect { |p| p.id == guess[:player_id] }.tiles[guess[:tile_position]]
         if guess_tile == CoEngine::Tile.new(color: guess[:color], value: guess[:value])
+          move_state = !guess_tile.visible && player_id != guess[:player_id]
           guess_tile.visible = true
 
           if engine.players.count { |p| p.tiles.all?(&:visible) } < engine.players.count - 1
-            engine.state = CoEngine::FinaliseTurnOrGuessAgain
-            engine.turns[-1][:state] = CoEngine::FinaliseTurn.to_s
+            if move_state
+              engine.state = CoEngine::FinaliseTurnOrGuessAgain
+              engine.turns[-1][:state] = CoEngine::FinaliseTurn.to_s
+            end
           else
             # finalise the game
             engine.state = CoEngine::Completed

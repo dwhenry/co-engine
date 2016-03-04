@@ -54,7 +54,7 @@ RSpec.describe CoEngine do
 
       it 'InitialTileSelection' do
         subject.state = CoEngine::InitialTileSelection
-        expect(subject.actions(123)).to eq([:pick_tile, :move_tile, :finalize_hand])
+        expect(subject.actions(123)).to eq([:finalize_hand, :move_tile, :pick_tile])
       end
 
       context 'TileSelection' do

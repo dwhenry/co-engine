@@ -61,5 +61,41 @@ RSpec.describe CoEngine::GuessTile do
         expect(engine.state).not_to eq(described_class)
       end
     end
+
+    context 'when the guess is for an already visible tile' do
+      context 'and the guess is correct' do
+        before do
+          tile_2.visible = true
+          subject.perform(:guess, engine, 123, {player_id: 456, tile_position: 0, color: 'white', value: 3})
+        end
+
+        it 'does not change the tile visibility' do
+          expect(tile_2.visible).to be true
+        end
+
+        it 'does not advance the game state' do
+          expect(engine.state).to eq(described_class)
+        end
+      end
+
+      context 'and the guess is incorrect' do
+        before do
+          tile_2.visible = true
+          subject.perform(:guess, engine, 123, {player_id: 456, tile_position: 0, color: 'white', value: 4})
+        end
+
+        it 'does not change the tile visibility' do
+          expect(tile_2.visible).to be true
+        end
+
+        it 'makes the pending tile visible' do
+          expect(tile_3.visible).to be true
+        end
+
+        it 'advances the game state' do
+          expect(engine.state).not_to eq(described_class)
+        end
+      end
+    end
   end
 end
