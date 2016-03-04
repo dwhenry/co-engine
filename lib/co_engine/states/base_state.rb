@@ -6,14 +6,14 @@ class CoEngine
 
     def self.perform(action, engine, player_id, *attr)
       is_current = actions_visible_to_all? || (engine.current_player && engine.current_player.id == player_id)
-      if respond_to?(action) && actions(is_current: is_current).include?(action.to_sym)
+      if respond_to?(action) && actions(engine, is_current: is_current, player_id: player_id).include?(action.to_sym)
         send(action, engine, player_id, *normalize(attr))
       else
         raise(CoEngine::ActionCanNotBePerformed, action)
       end
     end
 
-    def self.actions(is_current:)
+    def self.actions(engine, is_current:, player_id:)
       if is_current || actions_visible_to_all?
         (self.methods - CoEngine::BaseState.methods - [:view]).sort
       else

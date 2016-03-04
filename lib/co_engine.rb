@@ -68,7 +68,7 @@ class CoEngine
 
   def actions(player_id)
     current_players = Array(current_player || players)
-    state.actions(is_current: current_players.any? { |p| p.id == player_id})
+    state.actions(self, is_current: current_players.any? { |p| p.id == player_id}, player_id: player_id)
   end
 
   def perform(action, player_id, *attr)

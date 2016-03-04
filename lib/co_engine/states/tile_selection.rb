@@ -8,7 +8,7 @@ class CoEngine
         false
       end
 
-      def actions(is_current:)
+      def actions(engine, is_current:, player_id:)
         super - [:next_state] # this is a public, but internal method
       end
 

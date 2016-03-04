@@ -58,6 +58,14 @@ class CoEngine
         }
       end
 
+      def actions(engine, is_current:, player_id:)
+        if engine.players.detect { |p| p.id == player_id }.tiles.compact.count < (CoEngine::MIN_TILE_COUNT[engine.players.count] - 1)
+          super - [:finalize_hand]
+        else
+          super
+        end
+      end
+
       private
 
       def tiles(tiles, show_values)

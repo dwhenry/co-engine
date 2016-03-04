@@ -24,8 +24,8 @@ class CoEngine
       false
     end
 
-    def self.actions(is_current:)
-      super(is_current: !is_current)
+    def self.actions(engine, is_current:, player_id:)
+      super(engine, is_current: !is_current, player_id: player_id)
     end
   end
 end

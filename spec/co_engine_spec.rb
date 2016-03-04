@@ -32,7 +32,7 @@ RSpec.describe CoEngine do
   describe '#actions' do
     before do
       subject.current_player = double(:player, id: 123)
-      subject.players = [double(:player, id: 123)]
+      subject.players = [double(:player, id: 123, tiles: []), double(:player, id: 345), double(:player, id: 678)]
     end
 
     context 'for each given state' do
@@ -52,9 +52,19 @@ RSpec.describe CoEngine do
         end
       end
 
-      it 'InitialTileSelection' do
-        subject.state = CoEngine::InitialTileSelection
-        expect(subject.actions(123)).to eq([:finalize_hand, :move_tile, :pick_tile])
+      context 'InitialTileSelection' do
+        before do
+          subject.state = CoEngine::InitialTileSelection
+        end
+
+        it 'when player has less than required number of tiles' do
+          expect(subject.actions(123)).to eq([:move_tile, :pick_tile])
+        end
+
+        it 'when player has required number of tiles' do
+          subject.players[0].tiles << 1 << 2 << 3 << 4
+          expect(subject.actions(123)).to eq([:finalize_hand, :move_tile, :pick_tile])
+        end
       end
 
       context 'TileSelection' do
