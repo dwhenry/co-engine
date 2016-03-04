@@ -67,6 +67,12 @@ The game is based off the following rules for the [coda game)(https://en.wikiped
 * the game can be played by 2-6 people
 * black and white tiles are interchangable - ie. black tiles are neither less than or greater than the corresponding white tiles with the same numeric value. 
 
+## Warnings
+
+* Correctly selecting a visible tile will not advance the game.
+* Incorrectly selecting a visible tile will be counted as a incorrect guess.
+* Correctly selecting one of your own tiles will not advance the game, but will make that tile visible if guessed correctly.
+
 ## Contributing
 
 1. Fork it ( https://github.com/dwhenry/co-engine/fork )
