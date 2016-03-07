@@ -59,10 +59,14 @@ class CoEngine
       end
 
       def actions(engine, is_current:, player_id:)
-        if engine.players.detect { |p| p.id == player_id }.tiles.compact.count < (CoEngine::MIN_TILE_COUNT[engine.players.count] - 1)
+        if engine.players.detect { |p| p.id == player_id }.tiles.compact.count < CoEngine::MIN_TILE_COUNT[engine.players.count]
           super - [:finalize_hand]
         else
-          super - [:pick_tile]
+          if engine.turns.any? { |t| t[:player_id] == player_id && t[:type] == CoEngine::HAND_FINALIZED && t[:state] == CoEngine::Completed.to_s }
+            []
+          else
+            super - [:pick_tile]
+          end
         end
       end
 
