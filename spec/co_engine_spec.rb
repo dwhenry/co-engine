@@ -63,7 +63,7 @@ RSpec.describe CoEngine do
 
         it 'when player has required number of tiles' do
           subject.players[0].tiles << 1 << 2 << 3 << 4
-          expect(subject.actions(123)).to eq([:finalize_hand, :move_tile, :pick_tile])
+          expect(subject.actions(123)).to eq([:finalize_hand, :move_tile])
         end
       end
 

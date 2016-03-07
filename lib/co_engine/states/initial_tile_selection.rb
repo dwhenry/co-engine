@@ -62,7 +62,7 @@ class CoEngine
         if engine.players.detect { |p| p.id == player_id }.tiles.compact.count < (CoEngine::MIN_TILE_COUNT[engine.players.count] - 1)
           super - [:finalize_hand]
         else
-          super
+          super - [:pick_tile]
         end
       end
 
