@@ -12,7 +12,6 @@ class CoEngine
         super - [:next_state] # this is a public, but internal method
       end
 
-
       def next_state(engine)
         if engine.tiles.any? { |t| t.owner_id.nil? }
           self
@@ -47,7 +46,7 @@ class CoEngine
       private
 
       def tiles(tiles, show_values)
-        tiles = tiles.sort_by(&:pending) unless show_values
+        tiles = tiles.sort_by { |t| [t.pending ? 0 : 1, t.value] } unless show_values # move pending to beginning of list
 
         tiles.map do |t|
           r = { color: t.color }

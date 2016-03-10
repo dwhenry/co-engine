@@ -38,7 +38,9 @@ class CoEngine
             turn_state = turns[-1][:state]
             {
               'CoEngine::TileSelection' => CoEngine::TileSelection,
-              'CoEngine::GuessTile' => CoEngine::GuessTile
+              'CoEngine::GuessTile' => CoEngine::GuessTile,
+              'CoEngine::FinaliseTurn' => CoEngine::FinaliseTurn,
+              'CoEngine::FinaliseTurnOrGuessAgain' => CoEngine::FinaliseTurnOrGuessAgain,
             }[turn_state] || raise(CoEngine::CorruptGame, "invalid game state detected: '#{turn_state}'")
           else
             CoEngine::Completed

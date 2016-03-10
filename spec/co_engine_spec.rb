@@ -91,6 +91,20 @@ RSpec.describe CoEngine do
           expect(subject.actions(345)).to eq([])
         end
       end
+
+      context 'GuessTile' do
+        before do
+          subject.state = CoEngine::GuessTile
+        end
+
+        it 'for the current player' do
+          expect(subject.actions(123)).to eq([:guess])
+        end
+
+        it 'for the other players' do
+          expect(subject.actions(345)).to eq([])
+        end
+      end
     end
   end
 

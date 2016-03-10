@@ -1,7 +1,7 @@
 class CoEngine
   class GuessTile < BaseState
     class << self
-      def self.actions_visible_to_all?
+      def actions_visible_to_all?
         false
       end
 
@@ -24,8 +24,10 @@ class CoEngine
           end
         else
           pending_tile = engine.current_player.tiles.detect { |t| t.pending }
-          pending_tile.visible = true
-
+          if pending_tile
+            pending_tile.pending = false
+            pending_tile.visible = true
+          end
           engine.state = CoEngine::FinaliseTurn
           engine.turns[-1][:state] = CoEngine::FinaliseTurn.to_s
         end
@@ -43,7 +45,7 @@ class CoEngine
       private
 
       def tiles(tiles, show_values)
-        tiles = tiles.sort_by{ |t| t.pending ? 0 : 1 } unless show_values # move pending to beginning of list
+        tiles = tiles.sort_by { |t| [t.pending ? 0 : 1, t.value] } unless show_values # move pending to beginning of list
 
         tiles.map do |t|
           r = { color: t.color }
