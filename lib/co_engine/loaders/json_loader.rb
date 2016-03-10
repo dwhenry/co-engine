@@ -17,6 +17,7 @@ class CoEngine
         engine.current_player = current_player
         engine.turns = turns
         engine.tiles = tiles
+        engine.guesses = guesses
         engine
       end
 
@@ -58,6 +59,10 @@ class CoEngine
 
       def turns
         data[:turns] || []
+      end
+
+      def guesses
+        data[:guesses] || []
       end
 
       def players

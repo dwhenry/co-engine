@@ -33,8 +33,9 @@ class CoEngine
         {
           state: state,
           players: engine.players.map { |p| { id: p.id, name: p.name, tiles: tiles(p.tiles, p.id == player_id) } },
-          current_player_position: engine.players.index(engine.current_player),
-          tiles: engine.tiles.map { |t| { color: t.color, selected: !t.owner_id.nil? } }
+          current_player: engine.current_player.name,
+          tiles: engine.tiles.map { |t| { color: t.color, selected: !t.owner_id.nil? } },
+          guesses: engine.guesses[-[2*engine.players.count, engine.guesses.count].min..-1]
         }
       end
 

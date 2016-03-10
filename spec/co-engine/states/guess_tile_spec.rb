@@ -8,13 +8,16 @@ RSpec.describe CoEngine::GuessTile do
   let(:tile_3) { CoEngine::Tile.new(color: 'black', value: 2, pending: true) }
   let(:tile_4) { CoEngine::Tile.new(color: 'white', value: 5) }
 
-  let(:engine) {
-    Struct.new(:players, :tiles, :turns, :state, :current_player).new(
+  let(:engine) do
+    Struct.new(:players, :tiles, :turns, :state, :current_player, :guesses).new(
       [player_1, player_2],
       [tile_1, tile_2],
       [{player_id: player_1.id, type: CoEngine::GAME_TURN, state: described_class.to_s}],
       described_class,
-      player_1) }
+      player_1,
+      []
+    )
+  end
 
   subject { described_class }
 
@@ -46,6 +49,17 @@ RSpec.describe CoEngine::GuessTile do
           expect(engine.state).to eq(CoEngine::Completed)
         end
       end
+
+      it 'logs the guess' do
+        subject.guess(engine, 123, {player_id: 456, tile_position: 0, color: 'white', value: 3})
+
+        expect(engine.guesses[-1]).to include(
+          player: /Player-\d+/,
+          guess: /Player-\d+ had a white-3 at position 0/,
+          tiles: "w3 w",
+          correct: true
+        )
+      end
     end
 
     context 'when guess is incorrect' do
@@ -59,6 +73,17 @@ RSpec.describe CoEngine::GuessTile do
 
       it 'advances the game state' do
         expect(engine.state).not_to eq(described_class)
+      end
+
+      it 'logs the guess' do
+        subject.guess(engine, 123, {player_id: 456, tile_position: 0, color: 'white', value: 4})
+
+        expect(engine.guesses[-1]).to include(
+          player: /Player-\d+/,
+          guess: /Player-\d+ had a white-4 at position 0/,
+          tiles: "w w",
+          correct: false
+        )
       end
     end
 

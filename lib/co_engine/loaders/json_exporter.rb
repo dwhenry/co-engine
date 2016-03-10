@@ -11,7 +11,8 @@ class CoEngine
         data = {
           players: players,
           tiles: tiles(engine),
-          turns: turns
+          turns: turns,
+          guesses: guesses
         }
         return data         unless json
         return data.to_json unless pretty
@@ -20,6 +21,10 @@ class CoEngine
 
       def turns
         engine.turns
+      end
+
+      def guesses
+        engine.guesses
       end
 
       def players

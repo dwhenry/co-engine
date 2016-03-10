@@ -64,7 +64,8 @@ class CoEngine
     :players,
     :current_player,
     :turns,
-    :tiles
+    :tiles,
+    :guesses
 
   def actions(player_id)
     current_players = Array(current_player || players)

@@ -69,7 +69,7 @@ RSpec.describe CoEngine do
         it 'has a state of pick tile' do
           expect(subject.view(123)).to include(
             state: 'PickTile',
-            current_player_position: 0
+            current_player: 'john'
           )
         end
 
