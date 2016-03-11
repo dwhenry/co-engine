@@ -88,9 +88,37 @@ RSpec.describe CoEngine::FinaliseTurn do
       )
     end
 
+    context 'if the next player has not hidden tiles' do
+      let(:player_3) { CoEngine::Player.new(id: 987, tiles: [tile_6]) }
+      let(:tile_6) { CoEngine::Tile.new(color: 'black', value: 11) }
+      before do
+        engine.players << player_3
+        player_2.tiles.each { |t| t.visible = true }
+      end
+
+      it 'move the current player/turn counter to the next active player' do
+        expect { subject.finalize_hand(engine, player_1.id) }.to change { engine.turns.count }.by(2)
+
+        expect(engine.turns[-2]).to eq(
+          player_id: player_2.id,
+          state: "CoEngine::Completed",
+          type: "SKIPPED",
+        )
+
+        expect(engine.turns[-1]).to eq(
+          player_id: player_3.id,
+          state: "CoEngine::TileSelection",
+          type: "GAME_TURN",
+        )
+
+      end
+    end
+
+
     it 'removes the pending status from any tile for the current player' do
       subject.finalize_hand(engine, player_1.id)
       expect(player_1.tiles.select { |t| t.pending }.count).to eq 0
     end
+
   end
 end

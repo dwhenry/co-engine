@@ -36,6 +36,7 @@ class CoEngine
   TURN_TYPES = [
     HAND_FINALIZED = 'HAND_FINALIZED',
     GAME_TURN = 'GAME_TURN',
+    SKIPPED = 'SKIPPED',
   ]
 
   MIN_TILE_COUNT = {

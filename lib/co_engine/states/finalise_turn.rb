@@ -19,14 +19,19 @@ class CoEngine
         engine.turns[-1][:state] = CoEngine::Completed.to_s
         engine.current_player.tiles.each { |t| t.pending = false }
 
-        completed_turns = engine.turns.select{ |turn| turn[:state] == CoEngine::Completed.to_s }.count
-        engine.current_player = engine.players[completed_turns % engine.players.count]
+        while true do
+          completed_turns = engine.turns.select{ |turn| turn[:state] == CoEngine::Completed.to_s }.count
+          engine.current_player = engine.players[completed_turns % engine.players.count]
 
-        engine.turns << {
-          player_id: engine.current_player.id,
-          type: CoEngine::GAME_TURN,
-          state: CoEngine::TileSelection.next_state(engine).to_s,
-        }
+          engine.turns << {
+            player_id: engine.current_player.id,
+            type: CoEngine::GAME_TURN,
+            state: CoEngine::TileSelection.next_state(engine).to_s,
+          }
+          break if engine.current_player.tiles.any? { |t| !t.visible }
+          engine.turns[-1][:type] = CoEngine::SKIPPED
+          engine.turns[-1][:state] = CoEngine::Completed.to_s
+        end
       end
 
       def view(engine, player_id)
